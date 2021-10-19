@@ -11,8 +11,8 @@ export default function Top({title, image})
 
 const styles = StyleSheet.create({
     top:{
-        height: 160,
-        width: '40%',
+        height: 130,
+        width: '35%',
         marginHorizontal: '30%',
         marginTop: '20%'
     },

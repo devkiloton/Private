@@ -22,7 +22,7 @@ export default function LoginScreen({navigation})
 
 const styles = StyleSheet.create({
     background:{
-        backgroundColor: "#071318"
+        backgroundColor: "#071318",
     },
     text:{
         color:'#AAA',

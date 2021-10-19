@@ -12,14 +12,14 @@ export default function Form({placeholder1, placeholder2})
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder={placeholder1}
-          placeholderTextColor='white'
+          placeholderTextColor='#999'
         />
         <TextInput
           style={styles.input}
           onChangeText={(text) => setPassword(text)}
           value={password}
           placeholder={placeholder2}
-          placeholderTextColor='white'
+          placeholderTextColor='#999'
           secureTextEntry= {true}
         />
       </SafeAreaView>

@@ -10,14 +10,8 @@ const login = {
         placeholder1: 'Email',
         placeholder2: 'Password',
         placeholder3: 'Profile picture (optional)',
-    },
-    buttonEnter:{
         iconEnter: enter,
-        helpButtonText: 'HELP'
     },
-    bottom:{
-        signupButtonText: 'SIGN UP',
-    }
 }
 
 export default login;

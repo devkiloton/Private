@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         width: 80,
         alignItems: 'center',
         position: 'absolute',
-        bottom: 30
+        bottom: 0
     },
     image:{
         width:'30%',
