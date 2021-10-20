@@ -1,20 +1,25 @@
 import React from 'react';
-import {Image, StyleSheet, Dimensions, Text} from 'react-native';
+import {Image, StyleSheet, Dimensions, View, Text} from 'react-native';
 
 export default function Top({title, image})
 {
     return <>
-    <Image source={image} style={styles.top}/>
+    <View style={styles.imageView}>
+        <Image source={image} style={styles.top}/>
+    </View>
     <Text style={styles.title}>{title}</Text>
     </>
 }
 
 const styles = StyleSheet.create({
+    imageView:{
+        justifyContent:'center',
+        alignItems: 'center'
+    },
     top:{
-        height: 130,
-        width: '35%',
-        marginHorizontal: '30%',
-        marginTop: '20%'
+        height: 120,
+        width: 120,
+        marginTop: '0%'
     },
     title:{
         width:"100%",

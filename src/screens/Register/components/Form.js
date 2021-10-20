@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, TextInput,View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import { auth } from '../../../../firebase';
 
 export default function Form({placeholder, placeholder1, placeholder2, placeholder3, iconEnter, navigation})
 {  
@@ -9,7 +10,18 @@ export default function Form({placeholder, placeholder1, placeholder2, placehold
     const [password, setPassword] = React.useState("");
     const [imageUrl, setPhoto] = React.useState("");
 
-    const register = () =>{};
+    const register = () =>{
+      auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser)=>{
+        authUser.user.updateProfile({
+          display: username,
+          photoUrl:
+          imageUrl || 'https://img.icons8.com/?id=96834&size=768&token=&format=png&fromSite=true&color=000000'
+        })
+      })
+      .catch((error)=>alert(error.message));
+    };
     return (
         <SafeAreaView>
         <View>
@@ -45,9 +57,6 @@ export default function Form({placeholder, placeholder1, placeholder2, placehold
           />
         </View>
         <View style={styles.view}>
-          <TouchableOpacity style={styles.buttonBack}>
-              <Image style={styles.image} source={iconEnter} onPress={() => navigation.push('Login')}/>
-          </TouchableOpacity>
           <TouchableOpacity style={styles.button} raised onPress={register}>
               <Image style={styles.image} source={iconEnter}/>
           </TouchableOpacity>
@@ -74,7 +83,7 @@ export default function Form({placeholder, placeholder1, placeholder2, placehold
       flexDirection:'row',
       width: '70%',
       marginHorizontal:'15%',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-end',
   },
   buttonBack:{
     marginTop: 16,

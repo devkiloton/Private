@@ -12,7 +12,7 @@ const RegisterScreen = ({navigation}) => {
             </KeyboardAvoidingView>
             <View style={styles.privacyView}>
           <Text style={styles.privacyText}>
-            When you create sign up, you agree with our terms!
+            When you sign up, you agree with our terms.
           </Text>
         </View>
         </ScrollView>

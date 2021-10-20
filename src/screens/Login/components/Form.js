@@ -1,10 +1,28 @@
-import React from 'react';
-import {Image, StyleSheet, TextInput,View, Text, SafeAreaView} from 'react-native';
+import React,{useEffect} from 'react';
+import {Image, StyleSheet, TextInput,View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import { auth } from '../../../../firebase';
 
-export default function Form({placeholder1, placeholder2})
+export default function Form({placeholder1, placeholder2, iconEnter, helpButtonText, navigation})
 {  
+  useEffect(()=>{
+    const unSubscribe = auth.onAuthStateChanged((authUser)=>{
+      console.log(authUser);
+        if(authUser)
+        {
+            navigation.replace('Home');
+        }
+    });
+
+    return unSubscribe;
+}, [])
+
+const signIn = ()=>{
+    
+}
+
+
     const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+    const [password, setPassword] = React.useState("");
     return (
         <SafeAreaView>
         <TextInput
@@ -22,6 +40,14 @@ export default function Form({placeholder1, placeholder2})
           placeholderTextColor='#999'
           secureTextEntry= {true}
         />
+        <View style={styles.view}>
+        <TouchableOpacity style={styles.button}>
+            <Text style={styles.helpButton}>{helpButtonText}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={signIn}>
+            <Image style={styles.image} source={iconEnter}/>
+        </TouchableOpacity>
+    </View>
       </SafeAreaView>
     )
   };
@@ -40,4 +66,26 @@ export default function Form({placeholder1, placeholder2})
       borderRadius: 18,
       backgroundColor: '#0B2027'
     },
+    view:{
+      flexDirection:'row',
+      width: '70%',
+      marginHorizontal:'15%',
+      justifyContent: 'space-between'
+  },
+  button:{
+      marginTop: 16,
+      backgroundColor: '#0B2027',
+      paddingVertical: 12,
+      borderRadius:20,
+      width: 80,
+      alignItems: 'center'
+  },
+  image:{
+      width:'30%',
+      marginHorizontal:'35%'
+  },
+  helpButton:{
+      color:'white',
+      justifyContent:'space-around'
+  }
   });

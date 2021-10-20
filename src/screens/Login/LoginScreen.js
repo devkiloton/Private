@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import {Button, Input, Image} from 'react-native-elements'
 import Top from './components/Top'
 import Form from './components/Form'
-import ButtonEnter from './components/ButtonEnter'
 import Bottom from './components/Bottom'
 import mocks from '../../mocks/Login'
 export default function LoginScreen({navigation})
@@ -13,8 +12,7 @@ export default function LoginScreen({navigation})
         <KeyboardAvoidingView behavior='padding' style={styles.background}>
             <StatusBar style='light'/>
             <Top {...mocks.top}/>
-            <Form {...mocks.form}/>
-            <ButtonEnter {...mocks.buttonEnter}/>
+            <Form navigation={navigation} {...mocks.form} {...mocks.buttonEnter}/>
             <Bottom navigation={navigation} {...mocks.bottom}/>
         </KeyboardAvoidingView>
     </>
