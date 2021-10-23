@@ -4,6 +4,9 @@ import { auth } from '../../../../firebase';
 
 export default function Form({placeholder1, placeholder2, iconEnter, helpButtonText, navigation})
 {  
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
   useEffect(()=>{
     const unSubscribe = auth.onAuthStateChanged((authUser)=>{
       console.log(authUser);
@@ -16,13 +19,7 @@ export default function Form({placeholder1, placeholder2, iconEnter, helpButtonT
     return unSubscribe;
 }, [])
 
-const signIn = ()=>{
-    
-}
-
-
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
+const signIn = ()=>{};
     return (
         <SafeAreaView>
         <TextInput

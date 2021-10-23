@@ -3,10 +3,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useFonts, Montserrat_700Bold, Montserrat_400Regular } from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 import LoginScreen from './src/screens/Login/LoginScreen';
 import  RegisterScreen from './src/screens/Register/RegisterScreen';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
-
 const Stack = createStackNavigator();
 
 const MyTheme = {
@@ -23,9 +24,17 @@ const globalScreenOptions = {
 }
 
 export default function App(){
+  const [loadedFont] = useFonts({
+    "MontserratRegular": Montserrat_400Regular,
+    "MontserratBold": Montserrat_700Bold,
+  });
+
+  if(!loadedFont){
+    return <AppLoading/>;
+  }
   return (
     <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator screenOptions={globalScreenOptions}>
+      <Stack.Navigator /*initialRouteName='Home'*/ screenOptions={globalScreenOptions}>
         <Stack.Screen name='Login' component={LoginScreen}/>
         <Stack.Screen name='Register' component={RegisterScreen}/>
         <Stack.Screen name='Home' component={HomeScreen}/>

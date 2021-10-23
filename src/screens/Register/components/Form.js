@@ -10,14 +10,18 @@ export default function Form({placeholder, placeholder1, placeholder2, placehold
     const [password, setPassword] = React.useState("");
     const [imageUrl, setPhoto] = React.useState("");
 
+    function getRndInteger(min, max) {
+      return Math.floor(Math.random() * (max - min) ) + min;
+    }
+
     const register = () =>{
       auth
       .createUserWithEmailAndPassword(email, password)
       .then((authUser)=>{
         authUser.user.updateProfile({
           display: username,
-          photoUrl:
-          imageUrl || 'https://img.icons8.com/?id=96834&size=768&token=&format=png&fromSite=true&color=000000'
+          photoURL:
+          imageUrl || `https://img.icons8.com/windows/32/${getRndInteger(100,999)}${getRndInteger(100,999)}/minecraft-anonymous.png`
         })
       })
       .catch((error)=>alert(error.message));
