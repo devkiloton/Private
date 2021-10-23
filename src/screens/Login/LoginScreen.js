@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import {Button, Input, Image} from 'react-native-elements'
 import Top from './components/Top'
 import Form from './components/Form'
@@ -9,18 +9,19 @@ import mocks from '../../mocks/Login'
 export default function LoginScreen({navigation})
 {
     return <>
-        <KeyboardAvoidingView behavior='padding' style={styles.background}>
+        <SafeAreaView behavior='padding' style={styles.background}>
             <StatusBar style='light'/>
             <Top {...mocks.top}/>
             <Form navigation={navigation} {...mocks.form} {...mocks.buttonEnter}/>
             <Bottom navigation={navigation} {...mocks.bottom}/>
-        </KeyboardAvoidingView>
+        </SafeAreaView>
     </>
 }
 
 const styles = StyleSheet.create({
     background:{
         backgroundColor: "#071318",
+        flex:1
     },
     text:{
         color:'#AAA',

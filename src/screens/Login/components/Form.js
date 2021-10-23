@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import {Image, StyleSheet, TextInput,View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, TextInput,View, Text, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
 import { auth } from '../../../../firebase';
 
 export default function Form({placeholder1, placeholder2, iconEnter, helpButtonText, navigation})
@@ -24,7 +24,7 @@ const signIn = ()=>{
   .catch((error) => alert(error));
 };
     return (
-        <SafeAreaView>
+        <KeyboardAvoidingView>
         <TextInput
           style={styles.input}
           onChangeText={(text) => setEmail(text)}
@@ -41,15 +41,15 @@ const signIn = ()=>{
           secureTextEntry= {true}
           onSubmitEditing={signIn}
         />
-        <View style={styles.view}>
+        <KeyboardAvoidingView style={styles.view}>
         <TouchableOpacity style={styles.button}>
             <Text style={styles.helpButton}>{helpButtonText}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={signIn}>
             <Image style={styles.image} source={iconEnter}/>
         </TouchableOpacity>
-    </View>
-      </SafeAreaView>
+      </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
     )
   };
   

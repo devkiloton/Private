@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         marginTop: '5%',
         lineHeight: 26,
         color:"white",
-        fontWeight:"bold",
+        fontFamily: 'MontserratBold',
         padding:16,
     },
 })

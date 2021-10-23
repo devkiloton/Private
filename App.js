@@ -8,6 +8,8 @@ import AppLoading from 'expo-app-loading';
 import LoginScreen from './src/screens/Login/LoginScreen';
 import  RegisterScreen from './src/screens/Register/RegisterScreen';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
+import AddChatScreen from './src/screens/AddChatScreen/AddChatScreen';
+
 const Stack = createStackNavigator();
 
 const MyTheme = {
@@ -38,6 +40,7 @@ export default function App(){
         <Stack.Screen name='Login' component={LoginScreen}/>
         <Stack.Screen name='Register' component={RegisterScreen}/>
         <Stack.Screen name='Home' component={HomeScreen}/>
+        <Stack.Screen name='AddChat' component={AddChatScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

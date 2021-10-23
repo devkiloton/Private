@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
-
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
   }
@@ -37,7 +36,9 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         height: 80,
         marginVertical: 3,
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        borderWidth: 1,
+        borderColor: '#444'
     },
     avatar:{
         backgroundColor:'#fff',
