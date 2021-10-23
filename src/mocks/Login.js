@@ -7,7 +7,7 @@ const login = {
         image: logo
     },
     form:{
-        placeholder1: 'Username',
+        placeholder1: 'Email',
         placeholder2: 'Password',
     },
     buttonEnter:{

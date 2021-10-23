@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
 
 function getRndInteger(min, max) {
@@ -19,10 +19,10 @@ const CustomListItem = ({id, chatName, enterChat}) => {
             />
             <ListItem.Content>
                 <ListItem.Title style={styles.listItemTitle}>
-                    Marcão do rodo
+                    John
                 </ListItem.Title>
                 <ListItem.Subtitle numberOfLines={1} ellipsizeMode='tail' style={styles.listItemSubTitle}>
-                    Are ya winning son? Are ya winning son? Are ya winning son?
+                    Are ya winning son?
                 </ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>

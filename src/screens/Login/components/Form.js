@@ -19,7 +19,10 @@ export default function Form({placeholder1, placeholder2, iconEnter, helpButtonT
     return unSubscribe;
 }, [])
 
-const signIn = ()=>{};
+const signIn = ()=>{
+  auth.signInWithEmailAndPassword(email, password)
+  .catch((error) => alert(error));
+};
     return (
         <SafeAreaView>
         <TextInput
@@ -36,6 +39,7 @@ const signIn = ()=>{};
           placeholder={placeholder2}
           placeholderTextColor='#999'
           secureTextEntry= {true}
+          onSubmitEditing={signIn}
         />
         <View style={styles.view}>
         <TouchableOpacity style={styles.button}>
