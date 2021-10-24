@@ -6,28 +6,21 @@ import mocks from '../../mocks/Register'
 const RegisterScreen = ({navigation}) => {
     return (
         <ScrollView>
-            <KeyboardAvoidingView>
             <Top {...mocks.top}/>
-            <Form {...mocks.form} navigation={navigation}/>
-            </KeyboardAvoidingView>
-            <View style={styles.privacyView}>
-          <Text style={styles.privacyText}>
+            <Text style={styles.privacyText}>
             When you sign up, you agree with our terms.
           </Text>
-        </View>
+            <Form {...mocks.form} navigation={navigation}/>
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-    privacyView:{
-        width:'50%',
-        marginHorizontal:'25%',
-        marginTop: 40
-      },
       privacyText:{
         color:'#999',
         textAlign: 'center',
+        alignSelf:'center',
+        marginVertical: 15
       }
 })
 export default RegisterScreen

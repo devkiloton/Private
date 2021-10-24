@@ -4,7 +4,7 @@ import { StyleSheet,ScrollView, View, Text, TouchableOpacity} from 'react-native
 export default function Bottom({signupButtonText, navigation})
 {
     return <>
-    <View style={{flex:1, justifyContent:'flex-end'}}>
+    <View style={{height:'100%',}}>
     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
                 <Text style={styles.helpButton}>{signupButtonText}</Text>
             </TouchableOpacity>

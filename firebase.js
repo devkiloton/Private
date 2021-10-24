@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 
 const firebaseConfig = {
-  xxxxxxxxxxxxx
+  zzzzzzzzzzzzzzzzzzzzzzzzz
 };
 
 let app;
