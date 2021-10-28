@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import { auth, db } from '../../../firebase'
 
@@ -19,28 +19,27 @@ const AddChatScreen = ({navigation}) => {
         });
     }, [navigation]);
 
-const createChat =() => async () => {
+const createChat = async () => {
     await db
     .collection('chats')
-    .add({
-        chatName: input,
-    })
-    .then(() => {
-        navigation.goBack();
-    })
+    .add({chatName: input})
+    .then(() => {navigation.goBack()})
     .catch((error) => alert(error));
 };
 
     return (
         <View>
-            <Input 
+            <TextInput 
                 placeholder='Enter a chat name'
                 value={input}
                 onChangeText={(text) => setInput(text)}
+                onSubmitEditing={createChat}
+                style={styles.input}
+                placeholderTextColor='#999'
             />
             <TouchableOpacity style={styles.button} onPress={createChat}>
                 <Text style={styles.textButton}>
-                    Crete new chat
+                    Create new chat
                 </Text>
             </TouchableOpacity>
         </View>
@@ -49,14 +48,29 @@ const createChat =() => async () => {
 
 const styles = StyleSheet.create({
     button:{
-        backgroundColor:'#fff',
+        backgroundColor:'#0B2027',
         alignSelf:'center',
-        width:120,
+        width:130,
         borderRadius:16,
         padding:10
     },
     textButton:{
         textAlign:'center',
+        color:'#fff'
+    },
+    input:{
+        height: 45,
+      margin: 12,
+      marginHorizontal:'15%',
+      borderWidth: 1,
+      fontSize:16,
+      padding: 10,
+      paddingHorizontal: 15,
+      borderColor: '#0B2027',
+      color: '#FFF',
+      borderRadius: 18,
+      backgroundColor: '#0B2027',
+      
     }
 })
 

@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native'
-import React, {useLayoutEffect} from 'react'
+import React, {useEffect, useLayoutEffect, useState} from 'react'
 import { Button, SafeAreaView, ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 //import { Button } from 'react-native-elements/dist/buttons/Button'
@@ -8,11 +8,24 @@ import { auth,db } from '../../../firebase'
 
 const HomeScreen = ({navigation}) => {
 
+    const [chats, setChats] = useState([]);
+
     const signOutUser = () => {
         auth.signOut().then(()=>{
             navigation.replace('Login');
         });
     };
+
+    useEffect(() => {
+        const unsubscribe = db.collection('chats').onSnapshot(snapshot =>{
+            setChats(snapshot.docs.map(doc =>({
+                id: doc.id,
+                data: doc.data()
+            })))
+        })
+
+        return unsubscribe;
+    }, [])
 
     useLayoutEffect(() => {
             navigation.setOptions({
@@ -38,20 +51,24 @@ const HomeScreen = ({navigation}) => {
             });
     }, [])
 
+    const enterChat = (id, chatName) => {
+        navigation.navigate('Chat', {
+            id,
+            chatName,
+        });
+    };
+
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{flex:1}}>
             <ScrollView style={{color:'#fff'}}>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
-                <CustomListItem/>
+                {chats.map(({id, data: { chatName}}) => (
+                <CustomListItem 
+                    key={id} 
+                    id={id} 
+                    chatName={chatName}
+                    enterChat={enterChat}
+                    />
+                ))}
             </ScrollView>
             <View style={styles.button}>
                 <View style={styles.subButton}>
@@ -75,7 +92,6 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     button:{
         flex:1,
-        
         position:'absolute',
         borderRadius: 20,
         paddingVertical: 5,

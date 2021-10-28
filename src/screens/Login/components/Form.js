@@ -1,5 +1,6 @@
 import React,{useEffect} from 'react';
 import {Image, StyleSheet, TextInput,View, Text, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
+import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { auth } from '../../../../firebase';
 
 export default function Form({placeholder1, placeholder2, iconEnter, helpButtonText, navigation})
@@ -46,7 +47,7 @@ const signIn = ()=>{
             <Text style={styles.helpButton}>{helpButtonText}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={signIn}>
-            <Image style={styles.image} source={iconEnter}/>
+            <Avatar style={styles.image} source={iconEnter}/>
         </TouchableOpacity>
       </KeyboardAvoidingView>
       </KeyboardAvoidingView>

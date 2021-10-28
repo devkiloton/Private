@@ -7,7 +7,7 @@ function getRndInteger(min, max) {
 
 const CustomListItem = ({id, chatName, enterChat}) => {
     return (
-        <ListItem containerStyle={styles.bgList}>
+        <ListItem onPress={() => enterChat(id, chatName)} key={id} bottomDivider containerStyle={styles.bgList}>
             <Avatar 
             rounded
             source={{
@@ -18,7 +18,7 @@ const CustomListItem = ({id, chatName, enterChat}) => {
             />
             <ListItem.Content>
                 <ListItem.Title style={styles.listItemTitle}>
-                    John
+                    {chatName}
                 </ListItem.Title>
                 <ListItem.Subtitle numberOfLines={1} ellipsizeMode='tail' style={styles.listItemSubTitle}>
                     Are ya winning son?
