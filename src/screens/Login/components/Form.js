@@ -47,7 +47,7 @@ const signIn = ()=>{
             <Text style={styles.helpButton}>{helpButtonText}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={signIn}>
-            <Avatar style={styles.image} source={iconEnter}/>
+            <Image style={styles.image} source={iconEnter}/>
         </TouchableOpacity>
       </KeyboardAvoidingView>
       </KeyboardAvoidingView>
