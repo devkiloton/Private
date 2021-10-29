@@ -1,14 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
+import React,{ useState } from 'react';
 import {Image, StyleSheet, TextInput,View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import { auth } from '../../../../firebase';
 
 export default function Form({placeholder, placeholder1, placeholder2, placeholder3, iconEnter, navigation})
 {  
-    const [username, setUsername] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [imageUrl, setPhoto] = React.useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [imageUrl, setPhoto] = useState("");
 
     function getRndInteger(min, max) {
       return Math.floor(Math.random() * (max - min) ) + min;
@@ -19,7 +19,7 @@ export default function Form({placeholder, placeholder1, placeholder2, placehold
       .createUserWithEmailAndPassword(email, password)
       .then((authUser)=>{
         authUser.user.updateProfile({
-          display: username,
+          displayName: username,
           photoURL:
           imageUrl || `https://img.icons8.com/windows/32/${getRndInteger(100,999)}${getRndInteger(100,999)}/minecraft-anonymous.png`
         })
@@ -49,7 +49,6 @@ export default function Form({placeholder, placeholder1, placeholder2, placehold
             value={imageUrl}
             placeholder={placeholder3}
             placeholderTextColor='#999'
-            onSubmitEditing={register}
           />
           <TextInput
             style={styles.input}
@@ -58,6 +57,7 @@ export default function Form({placeholder, placeholder1, placeholder2, placehold
             placeholder={placeholder2}
             placeholderTextColor='#999'
             secureTextEntry= {true}
+            onSubmitEditing={register}
           />
         </View>
         <View style={styles.view}>
