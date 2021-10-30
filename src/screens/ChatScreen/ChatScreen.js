@@ -10,6 +10,7 @@ const ChatScreen = ({navigation, route}) => {
       }
 
     const [input, setInput] = useState('');
+    const [messages, setMessages] = useState([]);
 
     useLayoutEffect(()=>{
         navigation.setOptions({
@@ -23,12 +24,19 @@ const ChatScreen = ({navigation, route}) => {
                         alignItems:'center'
                     }}
                 >
-                    <Avatar style={styles.avatar} rounded source={{uri: `https://img.icons8.com/windows/32/${getRndInteger(100,999)}${getRndInteger(100,999)}/minecraft-anonymous.png`}}/>
+                    <Avatar 
+                    style={styles.avatar} 
+                    rounded 
+                    source={{
+                        uri: 
+                            messages[0]?.data.photoURL
+                        }}
+                    />
                     <Text style={styles.headerTitle}>{route.params.chatName}</Text>
                 </View>
             ),
         });
-    },[navigation])
+    },[navigation, messages])
 
     const sendMessage = () => {
         Keyboard.dismiss();
@@ -44,6 +52,22 @@ const ChatScreen = ({navigation, route}) => {
 
         setInput('');
     };
+
+    useLayoutEffect(() => {
+        const unsubscribe = db
+            .collection('chats')
+            .doc(route.params.id)
+            .collection('messages')
+            .orderBy('timestamp', 'asc')
+            .onSnapshot((snapshot) => 
+                setMessages(
+                snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data()
+                }))
+            ))
+            return unsubscribe
+    }, [route])
     
     return (
         <SafeAreaView style={{flex:1}}>
@@ -55,7 +79,20 @@ const ChatScreen = ({navigation, route}) => {
                 <TouchableWithoutFeedback>
                     <>
                         <ScrollView>
-                            {/* Chat goes here */}
+                            {messages.map(({id, data}) =>
+                                data.email === auth.currentUser.email ? (
+                                    <View style={styles.receiver} key={id}>
+                                        <Avatar source={{uri:data.photoURL}}/>
+                                        <Text style={styles.receiverText}>{data.message}</Text>
+                                    </View>
+                                ) : (
+                                    <View style={styles.sender}>
+                                        <Avatar source={{uri:data.photoURL}}/>
+                                        <Text style={styles.senderText}>{data.message}</Text>
+                                        <Text style={styles.senderName}>{data.displayName}</Text>
+                                    </View>
+                                )
+                            )}
                         </ScrollView>
                         <View style={styles.footer}>
                             <TextInput
@@ -128,6 +165,35 @@ const styles = StyleSheet.create({
         backgroundColor:'#0B2027',
         borderRadius: 18,
         justifyContent: 'center'
+    },
+    receiver:{
+        padding: 12,
+        backgroundColor:'#0B2027',
+        alignSelf:'flex-end',
+        borderRadius: 20,
+        marginRight: 15,
+        marginBottom: 20,
+        maxWidth:'80%',
+        position: 'relative'
+    },
+    receiverText:{
+        color:'#FFF',
+    },
+    sender:{
+        padding: 12,
+        backgroundColor:'#0B2027',
+        alignSelf:'flex-start',
+        borderRadius: 20,
+        marginLeft: 15,
+        marginBottom: 20,
+        maxWidth:'80%',
+        position: 'relative'
+    },
+    senderText:{
+        color:'#FFF',
+    },
+    senderName:{
+        
     }
 })
 

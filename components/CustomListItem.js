@@ -1,17 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
+import { db } from '../firebase';
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
   }
 
 const CustomListItem = ({id, chatName, enterChat}) => {
+    
+    const [chatMessages, setChatMessages] = useState([]);
+
+    useEffect(()=>{
+        const unsubscribe = db
+        .collection('chats')
+        .doc(id)
+        .collection('messages')
+        .orderBy('timestamp', 'desc')
+        .onSnapshot((snapshot) => 
+            setChatMessages(snapshot.docs.map((doc) => doc.data()))
+        );
+        return unsubscribe;
+    })
+    
     return (
-        <ListItem onPress={() => enterChat(id, chatName)} key={id} bottomDivider containerStyle={styles.bgList}>
+        <ListItem 
+            onPress={() => enterChat(id, chatName)} 
+            key={id} 
+            bottomDivider
+            containerStyle={styles.bgList}>
             <Avatar 
             rounded
             source={{
-                uri:
+                uri: chatMessages?.[0]?.photoURL ||
                 `https://img.icons8.com/windows/32/${getRndInteger(100,999)}${getRndInteger(100,999)}/minecraft-anonymous.png`
             }}
             containerStyle={styles.avatar}
@@ -21,7 +41,7 @@ const CustomListItem = ({id, chatName, enterChat}) => {
                     {chatName}
                 </ListItem.Title>
                 <ListItem.Subtitle numberOfLines={1} ellipsizeMode='tail' style={styles.listItemSubTitle}>
-                    Are ya winning son?
+                    {chatMessages?.[0]?.displayName}: {chatMessages?.[0]?.message}
                 </ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>

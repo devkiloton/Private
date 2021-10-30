@@ -26,6 +26,8 @@ const globalScreenOptions = {
 }
 
 export default function App(){
+  console.ignoreYellowBox = ['Setting a timer'];
+
   const [loadedFont] = useFonts({
     "MontserratRegular": Montserrat_400Regular,
     "MontserratBold": Montserrat_700Bold,
