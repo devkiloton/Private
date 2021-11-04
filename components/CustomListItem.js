@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
   }
@@ -12,7 +12,7 @@ const CustomListItem = ({id, chatName, enterChat}) => {
 
     useEffect(()=>{
         const unsubscribe = db
-        .collection('chats')
+        .collection(auth.currentUser.email)
         .doc(id)
         .collection('messages')
         .orderBy('timestamp', 'desc')
@@ -32,7 +32,7 @@ const CustomListItem = ({id, chatName, enterChat}) => {
             rounded
             source={{
                 uri: chatMessages?.[0]?.photoURL ||
-                `https://img.icons8.com/windows/32/${getRndInteger(100,999)}${getRndInteger(100,999)}/minecraft-anonymous.png`
+                `https://img.icons8.com/windows/32/000000/minecraft-anonymous.png`
             }}
             containerStyle={styles.avatar}
             />

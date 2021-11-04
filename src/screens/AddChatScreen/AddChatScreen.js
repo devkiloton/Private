@@ -3,10 +3,11 @@ import { TouchableOpacity } from 'react-native'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import { auth, db } from '../../../firebase'
-
+import { collection, doc, setDoc } from "firebase/firestore"; 
 const AddChatScreen = ({navigation}) => {
 
     const [input, setInput] = useState('');
+    const [inputName, setInputName] = useState('');    
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -19,10 +20,19 @@ const AddChatScreen = ({navigation}) => {
         });
     }, [navigation]);
 
-const createChat = async () => {
+
+const createChatSender = async () => {
     await db
-    .collection('chats')
-    .add({chatName: input})
+    .collection(auth.currentUser.email)
+    .doc(input)
+    .set({chatName: inputName, email:input})
+    .then(() => {navigation.goBack()})
+    .catch((error) => alert(error));
+    
+    db
+    .collection(input)
+    .doc(auth.currentUser.email)
+    .set({chatName: auth.currentUser.displayName, email:auth.currentUser.email})
     .then(() => {navigation.goBack()})
     .catch((error) => alert(error));
 };
@@ -30,14 +40,21 @@ const createChat = async () => {
     return (
         <View>
             <TextInput 
-                placeholder='Enter a chat name'
+                placeholder='Email address'
                 value={input}
                 onChangeText={(text) => setInput(text)}
-                onSubmitEditing={createChat}
                 style={styles.input}
                 placeholderTextColor='#999'
             />
-            <TouchableOpacity style={styles.button} onPress={createChat}>
+            <TextInput 
+                placeholder='Enter a chat name'
+                value={inputName}
+                onChangeText={(text) => setInputName(text)}
+                style={styles.input}
+                onSubmitEditing={createChatSender}
+                placeholderTextColor='#999'
+            />
+            <TouchableOpacity style={styles.button} onPress={createChatSender}>
                 <Text style={styles.textButton}>
                     Create new chat
                 </Text>

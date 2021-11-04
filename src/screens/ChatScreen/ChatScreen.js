@@ -1,20 +1,17 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState, useEffect } from 'react'
 import { TextInput, StyleSheet, Text, View, SafeAreaView, StatusBar, KeyboardAvoidingView, PlatformColor, Platform, ScrollView, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { Avatar } from 'react-native-elements';
 import firebase from 'firebase';
 import { auth, db } from '../../../firebase';
+import { collection, query, where } from "firebase/firestore";
 
 const ChatScreen = ({navigation, route}) => {
-    function getRndInteger(min, max) {
-        return Math.floor(Math.random() * (max - min) ) + min;
-      }
 
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState([]);
 
     useLayoutEffect(()=>{
         navigation.setOptions({
-            title:`${route.params.chatName}`,
             headerBackTitleVisible: false,
             headerTitleAlign:'left',
             headerTitle:() =>(
@@ -38,10 +35,31 @@ const ChatScreen = ({navigation, route}) => {
         });
     },[navigation, messages])
 
+    const [receiverEmail, setReceiverEmail] = useState('');
+
+    useEffect(()=>{
+        const unsubscribe = db
+        .collection(auth.currentUser.email)
+        .doc(route.params.id)
+        .onSnapshot((doc) => 
+            setReceiverEmail(doc.data().email)
+        );
+        return unsubscribe;
+    })
+
     const sendMessage = () => {
         Keyboard.dismiss();
 
-        db.collection('chats').doc(route.params.id).collection('messages').add({
+        db.collection(auth.currentUser.email).doc(receiverEmail).collection('messages').add({
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            message: input,
+            displayName: auth.currentUser.displayName,
+            email: auth.currentUser.email,
+            photoURL: auth.currentUser.photoURL
+
+        });
+
+        db.collection(receiverEmail).doc(auth.currentUser.email).collection('messages').add({
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             message: input,
             displayName: auth.currentUser.displayName,
@@ -55,7 +73,7 @@ const ChatScreen = ({navigation, route}) => {
 
     useLayoutEffect(() => {
         const unsubscribe = db
-            .collection('chats')
+            .collection(auth.currentUser.email)
             .doc(route.params.id)
             .collection('messages')
             .orderBy('timestamp', 'asc')
@@ -193,7 +211,7 @@ const styles = StyleSheet.create({
         color:'#FFF',
     },
     senderName:{
-        
+        color: '#999'
     }
 })
 

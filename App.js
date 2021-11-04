@@ -10,6 +10,7 @@ import  RegisterScreen from './src/screens/Register/RegisterScreen';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
 import AddChatScreen from './src/screens/AddChatScreen/AddChatScreen';
 import ChatScreen from './src/screens/ChatScreen/ChatScreen';
+import { auth } from './firebase';
 const Stack = createStackNavigator();
 
 const MyTheme = {
@@ -26,7 +27,7 @@ const globalScreenOptions = {
 }
 
 export default function App(){
-  console.ignoreYellowBox = ['Setting a timer'];
+  console.log(auth.currentUser)
 
   const [loadedFont] = useFonts({
     "MontserratRegular": Montserrat_400Regular,
