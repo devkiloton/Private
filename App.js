@@ -11,6 +11,10 @@ import HomeScreen from './src/screens/HomeScreen/HomeScreen';
 import AddChatScreen from './src/screens/AddChatScreen/AddChatScreen';
 import ChatScreen from './src/screens/ChatScreen/ChatScreen';
 import { auth } from './firebase';
+import Archives from './src/screens/Archives/Archives';
+import AddGroups from './src/screens/AddGroups/AddGroups';
+import SearchChat from './src/screens/SearchChat/SearchChat';
+import Settings from './src/screens/Settings/Settings';
 const Stack = createStackNavigator();
 
 const MyTheme = {
@@ -43,6 +47,10 @@ export default function App(){
         <Stack.Screen name='Login' component={LoginScreen}/>
         <Stack.Screen name='Register' component={RegisterScreen}/>
         <Stack.Screen name='Home' component={HomeScreen}/>
+        <Stack.Screen name='Archives' component={Archives}/>
+        <Stack.Screen name='AddGroups' component={AddGroups}/>
+        <Stack.Screen name='SearchChat' component={SearchChat}/>
+        <Stack.Screen name='Settings' component={Settings}/>
         <Stack.Screen name='AddChat' component={AddChatScreen}/>
         <Stack.Screen name='Chat' component={ChatScreen}/>
       </Stack.Navigator>

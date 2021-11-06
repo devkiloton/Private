@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
     button:{
         marginTop: 16,
         backgroundColor: '#0B2027',
-        padding: 16,
-        borderRadius:20,
+        padding: 15,
+        borderRadius:19,
         width: 90,
         alignSelf: 'center',
         marginBottom: 25
     },
     helpButton:{
         color:'white',
-        textAlign: 'center'
+        textAlign: 'center',
     }
 })

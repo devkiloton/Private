@@ -1,10 +1,8 @@
+import { Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
 import { auth, db } from '../firebase';
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min) ) + min;
-  }
 
 const CustomListItem = ({id, chatName, enterChat}) => {
     
@@ -21,9 +19,55 @@ const CustomListItem = ({id, chatName, enterChat}) => {
         );
         return unsubscribe;
     })
-    
+
+    function format_time(s) {
+        var date = new Date(s * 1000);
+        // Hours part from the timestamp
+        var hours = date.getHours();
+        // Minutes part from the timestamp
+        var minutes = "0" + date.getMinutes();
+        // Seconds part from the timestamp
+        var seconds = "0" + date.getSeconds();
+
+        // Will display time in 10:30 format
+        var formattedTime = hours + ':' + minutes.substr(-2);
+
+        return formattedTime;
+      }
+
+    function isThereMessage(boolean)
+    {
+        if(boolean)
+        {
+            if(boolean?.[0]?.displayName === auth.currentUser.displayName)
+            {
+                return <>You: {boolean?.[0]?.message}</>
+            }
+            else if(boolean?.[0]?.displayName == null)
+            {
+                return 'Hey, write something here!'
+            }
+            else{
+                return <>{boolean?.[0]?.displayName}: {boolean?.[0]?.message}</>
+            }
+        }
+    }
+
     return (
-        <ListItem 
+        <ListItem.Swipeable
+
+            leftContent={
+                <TouchableOpacity style={styles.bgListLeft}>
+                    <Text style={styles.textListLeft}>Delete</Text>
+                </TouchableOpacity>
+            }
+
+            rightContent={
+                <TouchableOpacity style={styles.bgListRight}>
+                    <Text style={styles.textListRight}>Archive</Text>
+                </TouchableOpacity>
+            }
+
             onPress={() => enterChat(id, chatName)} 
             key={id} 
             bottomDivider
@@ -41,10 +85,13 @@ const CustomListItem = ({id, chatName, enterChat}) => {
                     {chatName}
                 </ListItem.Title>
                 <ListItem.Subtitle numberOfLines={1} ellipsizeMode='tail' style={styles.listItemSubTitle}>
-                    {chatMessages?.[0]?.displayName}: {chatMessages?.[0]?.message}
+                    {isThereMessage(chatMessages)}
+                </ListItem.Subtitle>
+                <ListItem.Subtitle numberOfLines={1} ellipsizeMode='tail' style={styles.timeText}>
+                    {format_time(chatMessages?.[0]?.timestamp)}
                 </ListItem.Subtitle>
             </ListItem.Content>
-        </ListItem>
+        </ListItem.Swipeable>
         
     )
 }
@@ -60,6 +107,38 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#444'
     },
+    bgListRight:{
+        backgroundColor: '#76cf7d',
+        borderRadius: 20,
+        marginHorizontal: 10,
+        height: 80,
+        marginVertical: 3,
+        alignItems: 'flex-start',
+        borderWidth: 1,
+        borderColor: '#444',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    textListRight:{
+        fontFamily:'MontserratBold',
+        color:'#FFF'
+    },
+    bgListLeft:{
+        backgroundColor: '#eb3f3f',
+        borderRadius: 20,
+        marginHorizontal: 10,
+        height: 80,
+        marginVertical: 3,
+        alignItems: 'flex-start',
+        borderWidth: 1,
+        borderColor: '#444',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    textListLeft:{
+        fontFamily:'MontserratBold',
+        color:'#FFF',
+    },
     avatar:{
         backgroundColor:'#fff',
         width: 48,
@@ -74,7 +153,13 @@ const styles = StyleSheet.create({
     listItemSubTitle:{
         color: '#CCC',
         fontSize: 15
-    }
+    },
+    timeText:{
+        position:'absolute',
+        top:0,
+        right:1,
+        color:'#999',
+    },
 })
 
 export default CustomListItem

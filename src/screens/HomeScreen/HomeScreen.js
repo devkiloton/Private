@@ -5,7 +5,7 @@ import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 //import { Button } from 'react-native-elements/dist/buttons/Button'
 import CustomListItem from '../../../components/CustomListItem'
 import { auth,db } from '../../../firebase'
-
+import Archives from '../Archives/Archives'
 const HomeScreen = ({navigation}) => {
 
     const [chats, setChats] = useState([]);
@@ -37,7 +37,7 @@ const HomeScreen = ({navigation}) => {
                 },
                 headerRight: ()=> (
                     <View style={{flexDirection:'row'}}>
-                        <TouchableOpacity style={{marginLeft: 5, borderRadius: 10}}>
+                        <TouchableOpacity onPress={()=>navigation.navigate('Settings')} style={{marginLeft: 5, borderRadius: 10}}>
                             <Avatar source={{ uri: 'https://img.icons8.com/material/384/ffffff/menu-2--v2.png'}}/>
                         </TouchableOpacity>
                         <TouchableOpacity style={{marginRight: 5, backgroundColor: '#FFF', borderRadius: 10}}>
@@ -72,14 +72,14 @@ const HomeScreen = ({navigation}) => {
             </ScrollView>
             <View style={styles.button}>
                 <View style={styles.subButton}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('Archives')}>
                     <Avatar source={{uri: 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/96/FFFFFF/external-cabinet-interior-flatart-icons-outline-flatarticons-6.png'}}/>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Avatar source={{ uri: 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/96/ffffff/external-group-business-and-teamwork-flatart-icons-outline-flatarticons.png'}}/>
+                    <Avatar onPress={()=>navigation.navigate('AddGroups')} source={{ uri: 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/96/ffffff/external-group-business-and-teamwork-flatart-icons-outline-flatarticons.png'}}/>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Avatar source={{ uri: 'https://img.icons8.com/ios/96/FFFFFF/search--v1.png'}}/>
+                    <Avatar onPress={()=>navigation.navigate('SearchChat')} source={{ uri: 'https://img.icons8.com/ios/96/FFFFFF/search--v1.png'}}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>navigation.navigate('AddChat')}>
                     <Avatar source={{ uri: 'https://img.icons8.com/ios/96/ffffff/plus--v1.png'}}/>

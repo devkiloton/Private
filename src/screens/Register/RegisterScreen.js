@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         color:'#999',
         textAlign: 'center',
         alignSelf:'center',
-        marginVertical: 15
+        marginVertical: 10
       }
 })
 export default RegisterScreen

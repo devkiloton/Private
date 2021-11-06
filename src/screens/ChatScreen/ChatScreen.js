@@ -87,6 +87,21 @@ const ChatScreen = ({navigation, route}) => {
             return unsubscribe
     }, [route])
     
+    function format_time(s) {
+        var date = new Date(s * 1000);
+        // Hours part from the timestamp
+        var hours = date.getHours();
+        // Minutes part from the timestamp
+        var minutes = "0" + date.getMinutes();
+        // Seconds part from the timestamp
+        var seconds = "0" + date.getSeconds();
+
+        // Will display time in 10:30 format
+        var formattedTime = hours + ':' + minutes.substr(-2);
+
+        return formattedTime;
+      }
+
     return (
         <SafeAreaView style={{flex:1}}>
             <StatusBar style='light'/>
@@ -100,14 +115,14 @@ const ChatScreen = ({navigation, route}) => {
                             {messages.map(({id, data}) =>
                                 data.email === auth.currentUser.email ? (
                                     <View style={styles.receiver} key={id}>
-                                        <Avatar source={{uri:data.photoURL}}/>
                                         <Text style={styles.receiverText}>{data.message}</Text>
+                                        <Text style={styles.timeText}>{format_time(data.timestamp)}</Text>
                                     </View>
                                 ) : (
                                     <View style={styles.sender}>
-                                        <Avatar source={{uri:data.photoURL}}/>
                                         <Text style={styles.senderText}>{data.message}</Text>
                                         <Text style={styles.senderName}>{data.displayName}</Text>
+                                        <Text style={styles.timeText}>{format_time(data.timestamp)}</Text>
                                     </View>
                                 )
                             )}
@@ -196,6 +211,12 @@ const styles = StyleSheet.create({
     },
     receiverText:{
         color:'#FFF',
+        fontSize: 15
+    },
+    timeText:{
+        alignSelf:'flex-end',
+        color:'#999',
+        fontSize:12
     },
     sender:{
         padding: 12,
@@ -209,6 +230,7 @@ const styles = StyleSheet.create({
     },
     senderText:{
         color:'#FFF',
+        fontSize: 15
     },
     senderName:{
         color: '#999'

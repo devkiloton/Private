@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
         lineHeight: 26,
         color:"white",
         fontFamily: 'MontserratBold',
-        padding:16,
+        padding:10,
     },
 })
