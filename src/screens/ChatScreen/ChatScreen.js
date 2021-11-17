@@ -40,6 +40,8 @@ const ChatScreen = ({navigation, route}) => {
     useEffect(()=>{
         const unsubscribe = db
         .collection(auth.currentUser.email)
+        .doc('data')
+        .collection('chats')
         .doc(route.params.id)
         .onSnapshot((doc) => 
             setReceiverEmail(doc.data().email)
@@ -50,7 +52,7 @@ const ChatScreen = ({navigation, route}) => {
     const sendMessage = () => {
         Keyboard.dismiss();
 
-        db.collection(auth.currentUser.email).doc(receiverEmail).collection('messages').add({
+        db.collection(auth.currentUser.email).doc('data').collection('chats').doc(receiverEmail).collection('messages').add({
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             message: input,
             displayName: auth.currentUser.displayName,
@@ -59,7 +61,7 @@ const ChatScreen = ({navigation, route}) => {
 
         });
 
-        db.collection(receiverEmail).doc(auth.currentUser.email).collection('messages').add({
+        db.collection(receiverEmail).doc('data').collection('chats').doc(auth.currentUser.email).collection('messages').add({
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             message: input,
             displayName: auth.currentUser.displayName,
@@ -74,6 +76,8 @@ const ChatScreen = ({navigation, route}) => {
     useLayoutEffect(() => {
         const unsubscribe = db
             .collection(auth.currentUser.email)
+            .doc('data')
+            .collection('chats')
             .doc(route.params.id)
             .collection('messages')
             .orderBy('timestamp', 'asc')

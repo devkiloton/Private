@@ -1,16 +1,19 @@
 import { Montserrat_700Bold } from '@expo-google-fonts/montserrat';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
 import { auth, db } from '../firebase';
 
-const CustomListItem = ({id, chatName, enterChat}) => {
+const CustomListItem = ({id, chatName, enterChat, archived}) => {
     
     const [chatMessages, setChatMessages] = useState([]);
+    //const [messages, setMessages] = useState([]);
 
     useEffect(()=>{
         const unsubscribe = db
         .collection(auth.currentUser.email)
+        .doc('data')
+        .collection('chats')
         .doc(id)
         .collection('messages')
         .orderBy('timestamp', 'desc')
@@ -19,6 +22,22 @@ const CustomListItem = ({id, chatName, enterChat}) => {
         );
         return unsubscribe;
     })
+
+
+    function archiveMessage(boolean)
+    {
+        var archive = db
+            .collection(auth.currentUser.email)
+            .doc('data')
+            .collection('chats')
+            .doc(id)
+            .update({
+                archived: !boolean
+                })
+            .catch((error) => alert(error));
+
+            return archive;
+    }
 
     function format_time(s) {
         var date = new Date(s * 1000);
@@ -57,13 +76,16 @@ const CustomListItem = ({id, chatName, enterChat}) => {
         <ListItem.Swipeable
 
             leftContent={
-                <TouchableOpacity style={styles.bgListLeft}>
+                <TouchableOpacity 
+                    style={styles.bgListLeft}>
                     <Text style={styles.textListLeft}>Delete</Text>
                 </TouchableOpacity>
             }
 
             rightContent={
-                <TouchableOpacity style={styles.bgListRight}>
+                <TouchableOpacity 
+                    style={styles.bgListRight}
+                    onPress={() => archiveMessage(archived)}>
                     <Text style={styles.textListRight}>Archive</Text>
                 </TouchableOpacity>
             }

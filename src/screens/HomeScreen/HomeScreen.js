@@ -17,7 +17,11 @@ const HomeScreen = ({navigation}) => {
     };
 
     useEffect(() => {
-        const unsubscribe = db.collection(auth.currentUser.email).onSnapshot(snapshot =>{
+        const unsubscribe = db
+        .collection(auth.currentUser.email)
+        .doc('data')
+        .collection('chats')
+        .onSnapshot(snapshot =>{
             setChats(snapshot.docs.map(doc =>({
                 id: doc.id,
                 data: doc.data()
@@ -61,14 +65,20 @@ const HomeScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{flex:1}}>
             <ScrollView style={{color:'#fff'}}>
-                {chats.map(({id, data: { chatName}}) => (
-                <CustomListItem 
+                {chats.map(({id, data: { chatName, archived}}) => {
+                    if(archived == true)
+                    {
+                        return null
+                    }
+                   return (<CustomListItem 
                     key={id} 
                     id={id} 
                     chatName={chatName}
+                    archived={archived}
                     enterChat={enterChat}
-                    />
-                ))}
+                    />)
+                })}
+            <CustomListItem/>
             </ScrollView>
             <View style={styles.button}>
                 <View style={styles.subButton}>

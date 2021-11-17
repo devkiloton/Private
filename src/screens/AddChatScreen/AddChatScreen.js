@@ -24,15 +24,27 @@ const AddChatScreen = ({navigation}) => {
 const createChatSender = async () => {
     await db
     .collection(auth.currentUser.email)
+    .doc('data')
+    .collection('chats')
     .doc(input)
-    .set({chatName: inputName, email:input})
+    .set({
+        chatName: inputName,
+        email:input,
+        archived: false
+        })
     .then(() => {navigation.goBack()})
     .catch((error) => alert(error));
     
     db
     .collection(input)
+    .doc('data')
+    .collection('chats')
     .doc(auth.currentUser.email)
-    .set({chatName: auth.currentUser.displayName, email:auth.currentUser.email})
+    .set({
+        chatName: auth.currentUser.displayName,
+        email:auth.currentUser.email,
+        archived: false
+            })
     .then(() => {navigation.goBack()})
     .catch((error) => alert(error));
 };
